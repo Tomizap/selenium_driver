@@ -3,12 +3,10 @@ import os
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-VERSION = "0.0.1"
 DESCRIPTION = ""
 
 setup(
     name="selenium_driver",
-    version=VERSION,
     author="TZ",
     author_email="zaptom@gmail.com",
     description=DESCRIPTION,
