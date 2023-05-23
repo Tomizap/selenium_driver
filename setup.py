@@ -8,6 +8,7 @@ DESCRIPTION = ""
 setup(
     name="selenium_driver",
     author="TZ",
+    version="0.0.1",
     author_email="zaptom@gmail.com",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
