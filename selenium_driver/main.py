@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 
 
-class selenium_driver:
+class selenium_driver(uc.Chrome):
 
     def __init__(self, port=random.randrange(9000, 9999), profil=False, secret=True, inconito=False, headless=False) -> None:
         options = uc.ChromeOptions()
@@ -28,6 +28,7 @@ class selenium_driver:
             options.add_argument('--no-sandbox')
             options.add_argument('--disable-dev-shm-usage')
         self.driver = uc.Chrome(options=options)
+        print('driver lunched')
         self.action = ActionChains(self.driver)
         self.driver.get('https://google.com')
         self.driver.maximize_window()
@@ -40,7 +41,7 @@ class selenium_driver:
         return
 
     def captcha(self) -> None:
-        captcha_selector = '.Captcha, .captcha, #Captcha, #captcha'
+        captcha_selector = '.Captcha, .captcha, #Captcha, #captcha, .pass-Captcha'
         if "checkpoint" in self.driver.current_url or "challenge" in self.driver.current_url or self.is_attached(captcha_selector):
             print('captcha')
             while "checkpoint" in self.driver.current_url or "challenge" in self.driver.current_url or self.is_attached(captcha_selector):
@@ -49,27 +50,40 @@ class selenium_driver:
         return
 
     def find_element(self, CSS_SELECTOR):
-        return self.driver.find_element(By.CSS_SELECTOR, CSS_SELECTOR)
+        for _ in range(3):
+            try:
+                return self.driver.find_element(By.CSS_SELECTOR, CSS_SELECTOR)
+            except:
+                time.sleep(1)
 
     def find_elements(self, CSS_SELECTOR):
-        return self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)
+        for _ in range(3):
+            try:
+                return self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)
+            except:
+                time.sleep(1)
 
     def current_url(self) -> str:
         return self.driver.current_url
 
     def is_attached(self, CSS_SELECTOR) -> bool:
-        time.sleep(3)
-        if len(self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)) > 0:
-            return True
-        else:
-            return False
+        for _ in range(3):
+            try:
+                if len(self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)) > 0:
+                    return True
+            except:
+                time.sleep(1)
+        return False
 
     def get(self, url) -> None:
         self.driver.get(url)
         return
 
     def execute_script(self, script) -> None:
-        self.driver.execute_script(script)
+        try:
+            self.driver.execute_script(script)
+        except:
+            pass
         return
 
     def click(self, CSS_SELECTOR) -> bool:
@@ -87,6 +101,7 @@ class selenium_driver:
         self.click(CSS_SELECTOR)
         time.sleep(1)
         print(f'writing | {CSS_SELECTOR}')
+        self.execute_script(f"document.querySelector('{CSS_SELECTOR}').value = ''")
         for letter in string:
             try:
                 self.driver.find_element(
