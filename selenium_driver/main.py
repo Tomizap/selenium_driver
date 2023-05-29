@@ -76,6 +76,7 @@ class selenium_driver(uc.Chrome):
         return False
 
     def get(self, url) -> None:
+        print(f'get | {url}')
         self.driver.get(url)
         return
 
@@ -85,6 +86,14 @@ class selenium_driver(uc.Chrome):
         except:
             pass
         return
+
+    def window_handles(self):
+        return self.driver.window_handles
+
+    def switch_to_window(self, window=None):
+        if window is None:
+            return
+        self.switch_to.window(window)
 
     def click(self, CSS_SELECTOR) -> bool:
         time.sleep(1)
@@ -100,7 +109,7 @@ class selenium_driver(uc.Chrome):
     def write(self, CSS_SELECTOR, string) -> bool:
         self.click(CSS_SELECTOR)
         time.sleep(1)
-        print(f'writing | {CSS_SELECTOR}')
+        print(f'write | {CSS_SELECTOR}')
         self.execute_script(f"document.querySelector('{CSS_SELECTOR}').value = ''")
         for letter in string:
             try:
