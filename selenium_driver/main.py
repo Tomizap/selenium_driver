@@ -10,7 +10,7 @@ import undetected_chromedriver as uc
 
 class selenium_driver(uc.Chrome):
 
-    def __init__(self, port=random.randrange(9000, 9999), profil=False, secret=True, inconito=False, headless=False) -> None:
+    def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', profil=False, secret=True, inconito=False, headless=False) -> None:
         options = uc.ChromeOptions()
         # options.add_experimental_option("debuggerAddress", "127.0.0.1:" + str(port))
         options.add_argument("--remote-debugging-port=" + str(port))
@@ -30,7 +30,7 @@ class selenium_driver(uc.Chrome):
         self.driver = uc.Chrome(options=options)
         print('driver lunched')
         self.action = ActionChains(self.driver)
-        self.driver.get('https://google.com')
+        self.driver.get(url)
         self.driver.maximize_window()
         time.sleep(1)
         try:
