@@ -39,6 +39,8 @@ class selenium_driver(uc.Chrome):
         except:
             pass
         return
+    
+    # ------------ Security ---------------
 
     def captcha(self) -> None:
         captcha_selector = '.Captcha, .captcha, #Captcha, #captcha, .pass-Captcha'
@@ -48,6 +50,8 @@ class selenium_driver(uc.Chrome):
                 time.sleep(2)
                 print('wait')
         return
+    
+    # ------------ Elements ---------------
 
     def find_element(self, CSS_SELECTOR):
         for _ in range(3):
@@ -63,9 +67,6 @@ class selenium_driver(uc.Chrome):
             except:
                 time.sleep(1)
 
-    def current_url(self) -> str:
-        return self.driver.current_url
-
     def is_attached(self, CSS_SELECTOR) -> bool:
         for _ in range(3):
             try:
@@ -74,6 +75,21 @@ class selenium_driver(uc.Chrome):
             except:
                 time.sleep(1)
         return False
+    
+    # ------------ Window ---------------
+
+    def window_handles(self):
+        return self.driver.window_handles
+
+    def switch_to_window(self, window=None):
+        if window is None:
+            return
+        self.switch_to.window(window)
+
+    def close(self):
+        self.driver.close()
+
+    # ------------ USER ACTION ---------------
 
     def get(self, url) -> None:
         print(f'get | {url}')
@@ -86,14 +102,6 @@ class selenium_driver(uc.Chrome):
         except:
             pass
         return
-
-    def window_handles(self):
-        return self.driver.window_handles
-
-    def switch_to_window(self, window=None):
-        if window is None:
-            return
-        self.switch_to.window(window)
 
     def click(self, CSS_SELECTOR) -> bool:
         time.sleep(1)
@@ -120,3 +128,8 @@ class selenium_driver(uc.Chrome):
                 print('error')
                 return False
         return True
+
+    # ------------ USER ACTION ---------------
+
+    def current_url(self) -> str:
+        return self.driver.current_url
