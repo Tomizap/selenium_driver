@@ -1,19 +1,25 @@
 import time
 import random
-from pprint import pprint
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
-class selenium_driver(uc.Chrome):
+class SeleniumDriver:
 
-    def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', profil=False, secret=True, inconito=False, headless=False) -> None:
-        options = uc.ChromeOptions()
+    def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', profil=False, inconito=False,
+                 headless=False) -> None:
+        super().__init__()
+        options = Options()
         # options.add_experimental_option("debuggerAddress", "127.0.0.1:" + str(port))
         options.add_argument("--remote-debugging-port=" + str(port))
+        options.add_argument("--disable-infobars")
+        options.add_argument("--disable-notifications")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-browser-side-navigation")
         if profil is True:
             options.add_argument(
                 "user-data-dir=C:\\Users\\Conta\\AppData\\Local\\Google\\Chrome\\User Data")
@@ -21,13 +27,12 @@ class selenium_driver(uc.Chrome):
             options.add_argument('--incognito')
         if headless is True:
             options.add_argument('--headless')
-        if secret is True:
-            options.add_argument('--disable-infobars')
-            options.add_argument('--start-maximized')
-            options.add_argument('--disable-extensions')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-        self.driver = uc.Chrome(options=options)
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-features=VizDisplayCompositor")
+        self.driver = webdriver.Chrome(options=options)
         print('driver lunched')
         self.action = ActionChains(self.driver)
         self.driver.get(url)
@@ -35,7 +40,7 @@ class selenium_driver(uc.Chrome):
         time.sleep(1)
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
-            time.sleep()
+            time.sleep(1)
         except:
             pass
         return
@@ -53,24 +58,24 @@ class selenium_driver(uc.Chrome):
     
     # ------------ Elements ---------------
 
-    def find_element(self, CSS_SELECTOR):
+    def find_element(self, css_selector):
         for _ in range(3):
             try:
-                return self.driver.find_element(By.CSS_SELECTOR, CSS_SELECTOR)
+                return self.driver.find_element(By.CSS_SELECTOR, css_selector)
             except:
                 time.sleep(1)
 
-    def find_elements(self, CSS_SELECTOR):
+    def find_elements(self, css_selector):
         for _ in range(3):
             try:
-                return self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)
+                return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
             except:
                 time.sleep(1)
 
-    def is_attached(self, CSS_SELECTOR) -> bool:
+    def is_attached(self, css_selector) -> bool:
         for _ in range(3):
             try:
-                if len(self.driver.find_elements(By.CSS_SELECTOR, CSS_SELECTOR)) > 0:
+                if len(self.driver.find_elements(By.CSS_SELECTOR, css_selector)) > 0:
                     return True
             except:
                 time.sleep(1)
@@ -84,7 +89,7 @@ class selenium_driver(uc.Chrome):
     def switch_to_window(self, window=None):
         if window is None:
             return
-        self.switch_to.window(window)
+        self.driver.switch_to.window(window)
 
     def close(self):
         self.driver.close()
@@ -103,26 +108,26 @@ class selenium_driver(uc.Chrome):
             pass
         return
 
-    def click(self, CSS_SELECTOR) -> bool:
+    def click(self, css_selector) -> bool:
         time.sleep(1)
-        print(f'click | {CSS_SELECTOR}')
+        print(f'click | {css_selector}')
         try:
-            element = self.driver.find_element(By.CSS_SELECTOR, CSS_SELECTOR)
+            element = self.driver.find_element(By.CSS_SELECTOR, css_selector)
             self.action.move_to_element(element).click().perform()
         except:
             print('error')
             return False
         return True
 
-    def write(self, CSS_SELECTOR, string) -> bool:
-        self.click(CSS_SELECTOR)
+    def write(self, css_selector, string) -> bool:
+        self.click(css_selector)
         time.sleep(1)
-        print(f'write | {CSS_SELECTOR}')
-        self.execute_script(f"document.querySelector('{CSS_SELECTOR}').value = ''")
+        print(f'write | {css_selector}')
+        self.execute_script(f"document.querySelector('{css_selector}').value = ''")
         for letter in string:
             try:
                 self.driver.find_element(
-                    By.CSS_SELECTOR, CSS_SELECTOR).send_keys(letter)
+                    By.CSS_SELECTOR, css_selector).send_keys(letter)
                 time.sleep(random.randrange(1, 4)/10)
             except:
                 print('error')

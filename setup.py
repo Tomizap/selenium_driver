@@ -13,8 +13,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=['selenium', 'undetected_chromedriver @ git+https://github.com/ultrafunkamsterdam/undetected-chromedriver#undetected_chromedriver'],
-    # dependency_link=["git+git://github.com/ultrafunkamsterdam/undetected-chromedriver#undetected_chromedriver"],
+    install_requires=['selenium'],
     keywords=[],
     classifiers=[]
 )
