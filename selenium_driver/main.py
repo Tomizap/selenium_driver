@@ -36,7 +36,7 @@ class SeleniumDriver:
         print('driver lunched')
         self.action = ActionChains(self.driver)
         self.driver.get(url)
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
         time.sleep(1)
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
