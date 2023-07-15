@@ -123,6 +123,7 @@ class SeleniumDriver:
         self.click(css_selector)
         time.sleep(1)
         print(f'write | {css_selector}')
+        self.execute_script(f"document.querySelector('{css_selector}').textContent = ''")
         self.execute_script(f"document.querySelector('{css_selector}').value = ''")
         for letter in string:
             try:
