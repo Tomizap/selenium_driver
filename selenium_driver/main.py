@@ -136,5 +136,8 @@ class SeleniumDriver:
 
     # ------------ USER ACTION ---------------
 
+    def add_cookie(self, cookie):
+        self.driver.add_cookie(cookie)
+
     def current_url(self) -> str:
         return self.driver.current_url
