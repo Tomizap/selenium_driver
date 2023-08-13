@@ -7,7 +7,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 class SeleniumDriver:
@@ -16,9 +15,6 @@ class SeleniumDriver:
                  headless=False) -> None:
 
         # super().__init__()
-
-        d = DesiredCapabilities.CHROME
-        d['loggingPrefs'] = { 'browser':'OFF' }
 
         options = Options()
         options.add_argument("--remote-debugging-port=" + str(port))
@@ -43,8 +39,7 @@ class SeleniumDriver:
         # self.driver = webdriver.Chrome(options=options)
         self.driver = webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install()), 
-            options=options,
-            desired_capabilities=d)
+            options=options,)
 
 
         print('Driver launched')
