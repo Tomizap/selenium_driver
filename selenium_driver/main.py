@@ -1,49 +1,53 @@
 import time
 import random
 
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class SeleniumDriver:
 
-    def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', profil=False, inconito=False,
+    def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', incognito=False,
                  headless=False) -> None:
-        super().__init__()
+
+        # super().__init__()
+
         options = Options()
-        # options.add_experimental_option("debuggerAddress", "127.0.0.1:" + str(port))
         options.add_argument("--remote-debugging-port=" + str(port))
         options.add_argument("--disable-infobars")
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-popup-blocking")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-browser-side-navigation")
-        if profil is True:
-            options.add_argument(
-                "user-data-dir=C:\\Users\\Conta\\AppData\\Local\\Google\\Chrome\\User Data")
-        if inconito is True:
+
+        if incognito:
             options.add_argument('--incognito')
-        if headless is True:
+        if headless:
             options.add_argument('--headless')
+
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-features=VizDisplayCompositor")
-        self.driver = webdriver.Chrome(options=options)
-        print('driver lunched')
+
+        # self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+
+
+        print('Driver launched')
         self.action = ActionChains(self.driver)
         self.driver.get(url)
-        # self.driver.maximize_window()
         time.sleep(1)
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
             time.sleep(1)
         except:
             pass
-        return
     
     # ------------ Security ---------------
 
