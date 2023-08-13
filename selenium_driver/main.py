@@ -7,6 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 class SeleniumDriver:
@@ -16,6 +17,9 @@ class SeleniumDriver:
 
         # super().__init__()
 
+        d = DesiredCapabilities.CHROME
+        d['loggingPrefs'] = { 'browser':'OFF' }
+
         options = Options()
         options.add_argument("--remote-debugging-port=" + str(port))
         options.add_argument("--disable-infobars")
@@ -23,6 +27,7 @@ class SeleniumDriver:
         options.add_argument("--disable-popup-blocking")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-browser-side-navigation")
+        options.add_argument("--log-level=3")
 
         if incognito:
             options.add_argument('--incognito')
@@ -36,7 +41,10 @@ class SeleniumDriver:
         options.add_argument("--disable-features=VizDisplayCompositor")
 
         # self.driver = webdriver.Chrome(options=options)
-        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        self.driver = webdriver.Chrome(
+            service=ChromeService(ChromeDriverManager().install()), 
+            options=options,
+            desired_capabilities=d)
 
 
         print('Driver launched')
