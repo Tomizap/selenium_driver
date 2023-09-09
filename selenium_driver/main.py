@@ -1,12 +1,18 @@
+import os
 import time
 import random
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+
+import undetected_chromedriver as uc
+
+from colorama import Fore
 
 
 class SeleniumDriver:
@@ -16,6 +22,9 @@ class SeleniumDriver:
 
         # super().__init__()
 
+        # d = DesiredCapabilities.CHROME
+        # d['loggingPrefs'] = { 'browser':'OFF' }
+
         options = Options()
         options.add_argument("--remote-debugging-port=" + str(port))
         options.add_argument("--disable-infobars")
@@ -23,6 +32,7 @@ class SeleniumDriver:
         options.add_argument("--disable-popup-blocking")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-browser-side-navigation")
+        options.add_argument("--log-level=3")
 
         if incognito:
             options.add_argument('--incognito')
@@ -36,9 +46,28 @@ class SeleniumDriver:
         options.add_argument("--disable-features=VizDisplayCompositor")
 
         # self.driver = webdriver.Chrome(options=options)
-        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        try:
+            self.driver = uc.Chrome()
+        except Exception as e1:
+            print(Fore.RED + f'Create Driver Method 1 failed')
+            print(Fore.WHITE + str(e1))
+            try:
+                self.driver = webdriver.Chrome(
+                    service=ChromeService(ChromeDriverManager().install()), 
+                    options=options)
+            except Exception as e2:
+                print(Fore.RED + f'Create Driver Method 2 failed')
+                print(Fore.WHITE + str(e2))
+                try:
+                    self.driver = webdriver.Chrome(
+                    service=ChromeService('C:/Users/Conta/Desktop/chromedriver/chromedriver.exe'), 
+                    options=options)
+                except Exception as e3:
+                    print(Fore.RED + 'Create Driver Method 3 failed')
+                    print(Fore.WHITE + str(e3))
+                    pass
 
-
+        print(Fore.WHITE)
         print('Driver launched')
         self.action = ActionChains(self.driver)
         self.driver.get(url)
