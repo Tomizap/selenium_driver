@@ -47,7 +47,7 @@ class SeleniumDriver:
 
         # self.driver = webdriver.Chrome(options=options)
         try:
-            self.driver = uc.Chrome()
+            self.driver = uc.Chrome(options=options)
         except Exception as e1:
             print(Fore.RED + f'Create Driver Method 1 failed')
             print(Fore.WHITE + str(e1))
