@@ -13,7 +13,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=['selenium', 'webdriver_manager', 'colorama'],
+    install_requires=['selenium', 'webdriver_manager', 'undetected_chromedriver', 'colorama'],
     keywords=[],
     classifiers=[]
 )
