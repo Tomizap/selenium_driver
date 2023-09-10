@@ -75,7 +75,7 @@ class SeleniumDriver:
         time.sleep(1)
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
-            time.sleep(1)
+            # time.sleep(1)
         except:
             pass
     
@@ -101,13 +101,7 @@ class SeleniumDriver:
             return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
 
     def is_attached(self, css_selector) -> bool:
-        for _ in range(3):
-            try:
-                if len(self.driver.find_elements(By.CSS_SELECTOR, css_selector)) > 0:
-                    return True
-            except:
-                time.sleep(1)
-        return False
+        return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector)) > 0
     
     # ------------ Window ---------------
 
