@@ -101,7 +101,12 @@ class SeleniumDriver:
             return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
 
     def is_attached(self, css_selector) -> bool:
-        return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector)) > 0
+
+        for _ in range(3):
+            if len(self.driver.find_elements(By.CSS_SELECTOR, css_selector)) > 0:
+                return True
+            time.sleep(1)
+        return False
     
     # ------------ Window ---------------
 
