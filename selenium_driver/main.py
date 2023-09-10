@@ -15,6 +15,7 @@ import undetected_chromedriver as uc
 from colorama import Fore
 
 
+
 class SeleniumDriver:
 
     def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', incognito=False,
@@ -92,18 +93,12 @@ class SeleniumDriver:
     # ------------ Elements ---------------
 
     def find_element(self, css_selector):
-        for _ in range(3):
-            try:
-                return self.driver.find_element(By.CSS_SELECTOR, css_selector)
-            except:
-                time.sleep(1)
+        if self.is_attached(css_selector):
+            return self.driver.find_element(By.CSS_SELECTOR, css_selector)
 
     def find_elements(self, css_selector):
-        for _ in range(3):
-            try:
-                return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
-            except:
-                time.sleep(1)
+        if self.is_attached(css_selector):
+            return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
 
     def is_attached(self, css_selector) -> bool:
         for _ in range(3):
