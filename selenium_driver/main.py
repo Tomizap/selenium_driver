@@ -142,6 +142,8 @@ class SeleniumDriver:
         return
 
     def click(self, css_selector) -> bool:
+        if not self.is_attached(css_selector):
+            return False
         time.sleep(1)
         print(f'click | {css_selector}')
         try:
@@ -151,8 +153,11 @@ class SeleniumDriver:
             print('error')
             return False
         return True
+            
 
     def write(self, css_selector, string) -> bool:
+        if not self.is_attached(css_selector):
+            return False
         self.click(css_selector)
         time.sleep(1)
         print(f'write | {css_selector}')
