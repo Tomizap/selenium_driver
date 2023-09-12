@@ -48,10 +48,11 @@ class SeleniumDriver:
 
         # self.driver = webdriver.Chrome(options=options)
         try:
-            self.driver = uc.Chrome(options=options)
+            self.driver = uc.Chrome()
         except Exception as e1:
             print(Fore.RED + f'Create Driver Method 1 failed')
             print(Fore.WHITE + str(e1))
+
             try:
                 self.driver = webdriver.Chrome(
                     service=ChromeService(ChromeDriverManager().install()), 
@@ -59,6 +60,7 @@ class SeleniumDriver:
             except Exception as e2:
                 print(Fore.RED + f'Create Driver Method 2 failed')
                 print(Fore.WHITE + str(e2))
+
                 try:
                     self.driver = webdriver.Chrome(
                     service=ChromeService('C:/Users/Conta/Desktop/chromedriver/chromedriver.exe'), 
@@ -66,13 +68,22 @@ class SeleniumDriver:
                 except Exception as e3:
                     print(Fore.RED + 'Create Driver Method 3 failed')
                     print(Fore.WHITE + str(e3))
-                    pass
+
+                    try:
+                        self.driver = webdriver.Chrome(
+                        service=ChromeService('C:/Users/Conta/Desktop/chromedriver/chromedriver.exe'), 
+                        options=options)
+                    except Exception as e3:
+                        print(Fore.RED + 'Create Driver Method 3 failed')
+                        print(Fore.WHITE + str(e3))
 
         print(Fore.WHITE)
         print('Driver launched')
+        # try
         self.action = ActionChains(self.driver)
         self.driver.get(url)
         time.sleep(1)
+
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
             # time.sleep(1)
