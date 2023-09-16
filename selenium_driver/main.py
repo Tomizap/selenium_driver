@@ -23,66 +23,76 @@ class SeleniumDriver:
 
     def __init__(self, port=random.randrange(9000, 9999), url='https://google.com', incognito=False,
                  headless=True) -> None:
-
+        
         # super().__init__()
 
         # d = DesiredCapabilities.CHROME
         # d['loggingPrefs'] = { 'browser':'OFF' }
 
         options = ChromeOptions()
-        options.add_argument("--remote-debugging-port=" + str(port))
-        options.add_argument("--disable-infobars")
-        options.add_argument("--disable-notifications")
-        options.add_argument("--disable-popup-blocking")
-        options.add_argument("--disable-extensions")
-        options.add_argument("--disable-browser-side-navigation")
-        options.add_argument("--log-level=3")
+        # options.add_argument("--remote-debugging-port=" + str(port))
+        # options.add_argument("--disable-infobars")
+        # options.add_argument("--disable-notifications")
+        # options.add_argument("--disable-popup-blocking")
+        # options.add_argument("--disable-extensions")
+        # options.add_argument("--disable-browser-side-navigation")
+        # options.add_argument('--disable-application-cache')
+        # options.add_argument("--log-level=3")
 
         if incognito:
             options.add_argument('--incognito')
         if headless:
             options.add_argument('--headless')
 
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-features=VizDisplayCompositor")
+        # options.add_argument("--disable-blink-features=AutomationControlled")
+        # options.add_argument("--disable-dev-shm-usage")
+        # options.add_argument("--disable-setuid-sandbox")
+        # options.add_argument("--disable-gpu")
+        # options.add_argument("--no-sandbox")
+        # options.add_argument("--disable-features=VizDisplayCompositor")
 
         # from selenium import webdriver
         # self.driver = webdriver.Firefox()
 
         # self.driver = webdriver.Firefox(ChromeDriverManager().install())
 
+        for _ in range(1):
+            
         # self.driver = webdriver.Chrome(options=options)
-        try:
-            self.driver = uc.Chrome(options=options)
-        except Exception as e1:
-            print(Fore.RED + f'Create Driver Method 1 failed')
-            print(Fore.WHITE + str(e1))
+        # try:
+        #     self.driver = uc.Chrome(options=options)
+        # except Exception as e1:
+        #     print(Fore.RED + f'Create Driver Method 1 failed')
+        #     print(Fore.WHITE + str(e1))
 
             try:
-                self.driver = webdriver.Chrome(
-                    service=ChromeService(ChromeDriverManager().install()), 
-                    options=options)
+                from selenium import webdriver
+                self.driver = webdriver.Chrome(options=options)
+                continue
             except Exception as e2:
                 print(Fore.RED + f'Create Driver Method 2 failed')
                 print(Fore.WHITE + str(e2))
 
-                try:
-                    self.driver = webdriver.Chrome(
-                    service=ChromeService('C:/Users/Conta/Desktop/chromedriver/chromedriver.exe'), 
+            try:
+                from selenium import webdriver
+                self.driver = webdriver.Chrome(
+                    service=ChromeService(
+                        executable_path='C:/Users/Conta/Desktop/driver/chromedriver.exe'), 
                     options=options)
-                except Exception as e3:
-                    print(Fore.RED + 'Create Driver Method 3 failed')
-                    print(Fore.WHITE + str(e3))
+                continue
+            except Exception as e3:
+                print(Fore.RED + 'Create Driver Method 3 failed')
+                print(Fore.WHITE + str(e3))
 
-                    try:
-                        from selenium import webdriver
-                        self.driver = self.driver = webdriver.Firefox()
-                    except Exception as e4:
-                        print(Fore.RED + 'Create Driver Method 4 failed')
-                        print(Fore.WHITE + str(e4))
+            try:
+                from selenium import webdriver
+                self.driver = self.driver = webdriver.Firefox(
+                    service=FirefoxService(executable_path="C:/Users/Conta/Desktop/driver/geckodriver.exe")
+                )
+                continue
+            except Exception as e4:
+                print(Fore.RED + 'Create Driver Method 4 failed')
+                print(Fore.WHITE + str(e4))
 
 
         print(Fore.WHITE)
