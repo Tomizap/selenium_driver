@@ -31,13 +31,13 @@ class SeleniumDriver:
 
         options = ChromeOptions()
         # options.add_argument("--remote-debugging-port=" + str(port))
-        # options.add_argument("--disable-infobars")
-        # options.add_argument("--disable-notifications")
-        # options.add_argument("--disable-popup-blocking")
-        # options.add_argument("--disable-extensions")
-        # options.add_argument("--disable-browser-side-navigation")
-        # options.add_argument('--disable-application-cache')
-        # options.add_argument("--log-level=3")
+        options.add_argument("--disable-infobars")
+        options.add_argument("--disable-notifications")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-browser-side-navigation")
+        options.add_argument('--disable-application-cache')
+        options.add_argument("--log-level=3")
 
         if incognito:
             options.add_argument('--incognito')
@@ -45,7 +45,7 @@ class SeleniumDriver:
             options.add_argument('--headless')
 
         # options.add_argument("--disable-blink-features=AutomationControlled")
-        # options.add_argument("--disable-dev-shm-usage")
+        # options.add_argument("--disable-dev-shm-usage") 
         # options.add_argument("--disable-setuid-sandbox")
         # options.add_argument("--disable-gpu")
         # options.add_argument("--no-sandbox")
@@ -95,8 +95,8 @@ class SeleniumDriver:
                 print(Fore.WHITE + str(e4))
 
 
-        print(Fore.WHITE)
-        print('Driver launched')
+        # print(Fore.WHITE)
+        # print('Driver launched')
         # try
         self.action = ActionChains(self.driver)
         self.driver.get(url)
