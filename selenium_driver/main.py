@@ -44,12 +44,17 @@ class SeleniumDriver:
         if headless:
             options.add_argument('--headless')
 
-        # options.add_argument("--disable-blink-features=AutomationControlled")
-        # options.add_argument("--disable-dev-shm-usage") 
-        # options.add_argument("--disable-setuid-sandbox")
-        # options.add_argument("--disable-gpu")
-        # options.add_argument("--no-sandbox")
-        # options.add_argument("--disable-features=VizDisplayCompositor")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-dev-shm-usage") 
+        options.add_argument("--disable-setuid-sandbox")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-features=VizDisplayCompositor")
+        options.add_argument("--safe-mode")
+        options.add_argument("--disable-webgl")
+        options.add_argument("--disable-webrtc")
+        options.add_argument("--disable-preload")
+        options.add_argument("--disable-prerender")
 
         # from selenium import webdriver
         # self.driver = webdriver.Firefox()
@@ -57,16 +62,14 @@ class SeleniumDriver:
         # self.driver = webdriver.Firefox(ChromeDriverManager().install())
 
         for _ in range(1):
-            
-        # self.driver = webdriver.Chrome(options=options)
-        # try:
-        #     self.driver = uc.Chrome(options=options)
-        # except Exception as e1:
-        #     print(Fore.RED + f'Create Driver Method 1 failed')
-        #     print(Fore.WHITE + str(e1))
+
+            # try:
+            #     self.driver = uc.Chrome()
+            # except Exception as e1:
+            #     print(Fore.RED + f'Create Driver Method 1 failed')
+            #     print(Fore.WHITE + str(e1))
 
             try:
-                from selenium import webdriver
                 self.driver = webdriver.Chrome(options=options)
                 continue
             except Exception as e2:
@@ -74,7 +77,6 @@ class SeleniumDriver:
                 print(Fore.WHITE + str(e2))
 
             try:
-                from selenium import webdriver
                 self.driver = webdriver.Chrome(
                     service=ChromeService(
                         executable_path='C:/Users/Conta/Desktop/driver/chromedriver.exe'), 
@@ -83,28 +85,29 @@ class SeleniumDriver:
             except Exception as e3:
                 print(Fore.RED + 'Create Driver Method 3 failed')
                 print(Fore.WHITE + str(e3))
+                
+            try:
+                self.driver = webdriver.Chrome(options=options)
+                continue
+            except Exception as e2:
+                print(Fore.RED + f'Create Driver Method 2 failed')
+                print(Fore.WHITE + str(e2))
 
             try:
-                from selenium import webdriver
-                self.driver = self.driver = webdriver.Firefox(
+                self.driver = webdriver.Firefox(
                     service=FirefoxService(executable_path="C:/Users/Conta/Desktop/driver/geckodriver.exe")
                 )
                 continue
             except Exception as e4:
                 print(Fore.RED + 'Create Driver Method 4 failed')
                 print(Fore.WHITE + str(e4))
-
-
-        # print(Fore.WHITE)
-        # print('Driver launched')
-        # try
+                
         self.action = ActionChains(self.driver)
         self.driver.get(url)
         time.sleep(1)
 
         try:
             self.driver.find_element(By.CSS_SELECTOR, '#L2AGLb').click()
-            # time.sleep(1)
         except:
             pass
     
