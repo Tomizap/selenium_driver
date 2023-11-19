@@ -128,9 +128,11 @@ class SeleniumDriver:
         if self.is_attached(css_selector):
             return self.driver.find_element(By.CSS_SELECTOR, css_selector)
 
-    def find_elements(self, css_selector):
+    def find_elements(self, css_selector) -> list:
         if self.is_attached(css_selector):
             return self.driver.find_elements(By.CSS_SELECTOR, css_selector)
+        else:
+            return []
 
     def is_attached(self, css_selector) -> bool:
 
