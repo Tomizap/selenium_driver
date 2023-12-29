@@ -155,6 +155,9 @@ class SeleniumDriver:
     def close(self):
         self.driver.close()
 
+    def quit(self):
+        self.driver.quit()
+
     # ------------ USER ACTION ---------------
 
     def get(self, url) -> None:
@@ -181,8 +184,7 @@ class SeleniumDriver:
             print('error')
             return False
         return True
-            
-
+           
     def write(self, css_selector, string) -> bool:
         if not self.is_attached(css_selector):
             return False
