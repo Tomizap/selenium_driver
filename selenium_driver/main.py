@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 # from webdriver_manager.firefox import FirefoxDriverManager
 
-import undetected_chromedriver as uc
+# import undetected_chromedriver as uc
 
 from colorama import Fore
 
